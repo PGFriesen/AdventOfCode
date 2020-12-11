@@ -9,28 +9,85 @@ def readFile(input_file):
     return a
 
 def checkSeat(m, x, y, v):
-    a, moved = countAdjacents(m, x, y), False
-    if m[x][y] == 'L' and a == 0:          
+    s, moved = countSeen(m, x, y), False
+    if m[x][y] == 'L' and s == 0:          
         v[x][y] = 1
         moved = True
-    elif m[x][y] == '#' and a >= 4:
+    elif m[x][y] == '#' and s >= 5:
         v[x][y] = 2
         moved = True    
     else:
         v[x][y] = 0
     return moved
 
-def countAdjacents(m, x, y):
-    adj = 0
-    for i in range(-1, 2, 1):
-        for k in range(-1, 2, 1):
-            if (x+i >= 0) and (x+i < len(m)) and (y+k >= 0) and (y+k < len(m[x])):
-                if i == 0 and k == 0:
-                    continue
-                else:
-                    if m[x+i][y+k] == '#':
-                        adj += 1
-    return adj
+def countSeen(m,x,y):
+    seen = 0
+    exists = ['']*9
+
+    # Check all rows behind up to (Covered NE, N, NW)
+    for i in range(x-1,-1,-1):
+        diff = x-i
+        #(NW)
+        if (y-diff) >= 0:
+            if m[i][y-diff] == '#' and exists[0] != False:
+                exists[0] = True
+            elif m[i][y-diff] == 'L' and exists[0] != True:
+                exists[0] = False
+        #(NE)
+        if (y+diff) < len(m[x]): 
+            if m[i][y+diff] == '#' and exists[2] != False:
+                exists[2] = True
+            elif m[i][y+diff] == 'L' and exists[2] != True:
+                exists[2] = False
+        # N
+        if m[i][y] == '#' and exists[1] != False:
+            exists[1] = True
+        elif m[i][y] == 'L' and exists[1] != True:
+            exists[1] = False
+
+    if x < len(m)-1:
+        # Check all rows after from (Covered SE, S, SW)
+        for i in range(x+1, len(m)):      
+            diff = i-x
+            #(SW)
+            if (y-diff) >= 0:
+                if m[i][y-diff] == '#' and exists[6] != False:
+                    exists[6] = True
+                elif m[i][y-diff] == 'L' and exists[6] != True:
+                    exists[6] = False
+            #(SE)
+            if (y+diff) < len(m[x]): 
+                if m[i][y+diff] == '#' and exists[8] != False:
+                    exists[8] = True
+                elif m[i][y+diff] == 'L' and exists[8] != True:
+                    exists[8] = False
+    
+            # S
+            if m[i][y] == '#' and exists[7] != False:
+                exists[7] = True
+            elif m[i][y] == 'L' and exists[7] != True:
+                exists[7] = False
+
+    if y < len(m[x])-1:
+        # Check all to the right (Covered W)
+        for i in range(y+1, len(m[x])):
+            if m[x][i] == '#' and exists[5] != False:
+                exists[5] = True
+            elif m[x][i] == 'L' and exists[5] != True:
+                exists[5] = False
+    
+    # Check all to the left (Covered E)
+    for i in range(y-1,-1,-1):
+        if m[x][i] == '#' and exists[3] != False:
+            exists[3] = True
+        elif m[x][i] == 'L' and exists[3] != True:
+            exists[3] = False
+
+    for i in exists:
+        if i == True:
+            seen += 1
+
+    return seen
 
 def switchSeats(m, v):
     for r, row in enumerate(m):
@@ -43,7 +100,7 @@ def switchSeats(m, v):
 def main(arguments):
     seats, changed, seated, mappings = readFile('input.txt'), True, 0, []
     for row in seats:
-        arr = ['0']*len(row)
+        arr = ['0']*(len(row))
         mappings.append(arr)
 
     i = 0
@@ -54,6 +111,9 @@ def main(arguments):
                 if checkSeat(seats, r, c, mappings) == True:
                     changed = True
         i += 1
+        print(i)
+        for z in seats:
+            print(z)
         if changed:
             switchSeats(seats, mappings)
 
