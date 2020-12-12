@@ -19,28 +19,35 @@ def move(c, i):
     else:
         c[3] = c[3] + val
 
-def rotate(f, c, i):
-    if i[0] == 'L':
-        flip = c.copy()
-        flip.reverse()
-        return flip[(flip.index(f)+int(int(i[1:])/90)) % len(c)]
-    else:
-        return c[(c.index(f)+int(int(i[1:])/90)) % len(c)]
+def rotateWaypoint(waypoint, instruction, compass):
+    cpy, r = waypoint.copy(), False
+    if instruction[0] == 'L':
+        cpy.reverse()
+        r = True
+    for i in range(0, int(int(instruction[1:])/90)):
+        w = [cpy[-1]]
+        w.extend(cpy[0:len(cpy)-1])
+        cpy = w
+    
+    if r:
+        cpy.reverse()
+
+    return cpy
 
 def main(arguments):
     content, compass, coords = readFile('input.txt'), ['North','East','South','West'], [0,0,0,0]
-    facing = compass[1]     # Start facing East
-    
-    starting = coords.copy()
-    starting.append(facing)
-    print(starting)
+    facing = compass[1]
+    wp = [1,10,0,0]
+
     for i in content:       # i = instruction
         if i[0] in ['N','S','E','W']:
-            move(coords, i)
+            move(wp, i)
         elif i[0] == 'L' or i[0] == 'R':
-            facing = rotate(facing, compass, i)
+            wp = rotateWaypoint(wp, i, compass)
         else:
-            move(coords, i.replace('F', facing[0]))
+            for k in range(int(i[1:])):
+                for index, val in enumerate(wp):
+                    move(coords, '{}{}'.format(compass[index][0],val))
 
     ending = coords.copy()
     print(ending)
