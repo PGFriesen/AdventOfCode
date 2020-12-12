@@ -16,7 +16,7 @@ def CreateProgram(args):
 
     f = open(name, 'w')
     f.write("#!/usr/bin/env python3\n\nimport os\nimport sys\n\n")
-    f.write("def readFile(input_file):\n    f = open(input_file, 'r')\n    return f.readlines()\n\n\n")
+    f.write("def readFile(input_file):\n    with open(input_file,'r') as f:\n        a = [i.strip(' \\n') for i in f.readlines()]\n    return a\n\n")
     for i in range(numFunctions):
         f.write("def function{}():\n    print(\"function placeholder\")\n\n\n".format(i+1))
 
