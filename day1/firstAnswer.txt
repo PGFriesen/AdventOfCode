@@ -1,1 +1,0 @@
-Sort the list of numbers and move towards the middle until pointers add to 2020
