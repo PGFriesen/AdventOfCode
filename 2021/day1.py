@@ -3,10 +3,14 @@
 import os
 import sys
 
+# Read content from file into a list of values
+# If the values are all numeric, then "integers" will be a list of integers and strings are just the string equivelants
 def readFile(input_file):
     with open(input_file,'r') as f:
         content = f.readlines()
+
         strings = [i.strip(' \n') for i in content]
+        
         try:
             integers = [int(i.strip(' \n')) for i in content]
         except:
@@ -28,7 +32,6 @@ def partTwo(arg):
     increase, previousGroup = 0, [0,0,9999999999]
     for i in range(2, len(arg)):
         currentGroup = [arg[i-k] for k in range(3)]
-        
         if sum(currentGroup) > sum(previousGroup):
             increase += 1
 
