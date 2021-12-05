@@ -2,33 +2,38 @@
 
 import os
 import sys
+from dotmap import DotMap
+from parse import parse
 
 
-def part_one(arg):
+def part_one(input_list):
     print("Answer to Part 1: ")
 
 
-def part_two(arg):
+def part_two(input_list):
     print("Answer to Part 2: ")
 
 
-def read_file(input_file):
-    # Read and clean input from provided file and return a list
-    with open(input_file, 'r') as f:
-        lines = f.readlines()
-        input_list = [i.strip(' \n') for i in lines]
-
-    return input_list
+def load(data):
+    return [
+        DotMap(parse("{val:w}", line).named)
+        for line in data.split("\n")
+    ]
 
 
 def main(arguments):
-    input_file = "inputs/input.txt"
-    # input_file = "inputs/sample.txt" # using this file for the test use case
+    input_file = "inputs/sample.txt"
+    # input_file = "sample.txt"  # using this file for the test use case
 
-    input_list = read_file(input_file)
+    with open(input_file, 'r') as f:
+        contents = f.read()
 
-    part_one(input_list)
-    part_two(input_list)
+    data = load(contents)
+    for line in data:
+        print(line)
+
+    part_one(data.copy())
+    part_two(data.copy())
 
 
 if __name__ == '__main__':
