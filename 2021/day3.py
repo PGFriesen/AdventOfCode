@@ -17,7 +17,7 @@ Returns:
  - strings: The list of values as strings
 """
 def readFile(input_file):
-    input_file = "testInput.txt"
+    input_file = "sample.txt"
     with open(input_file,'r') as f:
         lines = f.readlines()
         input_list = [i.strip(' \n') for i in lines]
