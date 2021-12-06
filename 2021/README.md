@@ -1,6 +1,7 @@
 # 2021 Python Solutions
 
 | Day | Solution |
+| ----------- | ----------- |
 | 1 | :snake: [day1.py](solutions/day1.py)|
 | 2 | :snake: [day2.py](solutions/day2.py)|
 | 3 | :snake: [day3.py](solutions/day3.py)|
