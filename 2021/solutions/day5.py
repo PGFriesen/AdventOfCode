@@ -78,7 +78,7 @@ def read_file(input_file):
 
 
 def main(arguments):
-    input_file = "inputs/input5.txt"
+    input_file = "../inputs/input5.txt"
     #input_file = "sample.txt"  # using this file for the test use case
 
     input_list = read_file(input_file)

@@ -22,7 +22,7 @@ def load(data):
 
 
 def main(arguments):
-    input_file = "inputs/sample.txt"
+    input_file = "../inputs/sample.txt"
     # input_file = "sample.txt"  # using this file for the test use case
 
     with open(input_file, 'r') as f:

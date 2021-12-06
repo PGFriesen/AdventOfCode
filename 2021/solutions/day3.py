@@ -67,7 +67,7 @@ def find_most_least_common(bit_list):
 
 
 def main(arguments):
-    input_file = "inputs/input3.txt"
+    input_file = "../inputs/input3.txt"
     # input_file = "inputs/sample.txt" # using this file for the test use case
 
     input_values = read_file(input_file)

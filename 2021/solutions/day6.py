@@ -39,7 +39,7 @@ def spawn_more_fishies(days, fishies):
 
 
 def main(arguments):
-    input_file = "inputs/input6.txt"
+    input_file = "../inputs/input6.txt"
     # input_file = "sample.txt"  # using this file for the test use case
 
     with open(input_file, 'r') as f:
